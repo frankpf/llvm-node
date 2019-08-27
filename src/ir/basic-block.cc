@@ -107,6 +107,11 @@ NAN_METHOD(BasicBlockWrapper::getTerminator) {
     info.GetReturnValue().Set(Nan::Undefined());
 }
 
+NAN_METHOD(BasicBlockWrapper::begin) {
+    auto *basicBlock = BasicBlockWrapper::FromValue(info.Holder())->getBasicBlock();
+    basicBlock->begin();
+}
+
 Nan::Persistent<v8::FunctionTemplate>& BasicBlockWrapper::basicBlockTemplate() {
     static Nan::Persistent<v8::FunctionTemplate> functionTemplate {};
 
@@ -122,6 +127,7 @@ Nan::Persistent<v8::FunctionTemplate>& BasicBlockWrapper::basicBlockTemplate() {
         Nan::SetAccessor(localTemplate->InstanceTemplate(), Nan::New("parent").ToLocalChecked(), BasicBlockWrapper::getParent);
         Nan::SetAccessor(localTemplate->InstanceTemplate(), Nan::New("context").ToLocalChecked(), BasicBlockWrapper::getContext);
         Nan::SetPrototypeMethod(localTemplate, "getTerminator", BasicBlockWrapper::getTerminator);
+        Nan::SetPrototypeMethod(localTemplate, "begin", BasicBlockWrapper::begin);
 
         functionTemplate.Reset(localTemplate);
     }
