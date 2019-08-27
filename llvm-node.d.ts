@@ -157,6 +157,8 @@ declare namespace llvm {
     eraseFromParent(): void;
 
     getTerminator(): Value | undefined;
+
+    begin(): Value;
   }
 
   class Constant extends Value {
